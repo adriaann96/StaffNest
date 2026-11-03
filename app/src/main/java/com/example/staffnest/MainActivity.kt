@@ -39,6 +39,10 @@ import androidx.navigation.compose.rememberNavController
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.foundation.layout.Box
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.ButtonDefaults
+
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -240,7 +244,7 @@ fun inicio(responsable: () -> Unit, presidencia: () -> Unit,
                 }
                 Spacer(modifier = Modifier.height(15.dp))
                 Text(
-                    text = "Problemas para iniciar sesión? Guía de ayuda",
+                    text = "Olvidaste tu contraseña?",
                     fontSize = 12.sp
                 )
             }
@@ -251,103 +255,688 @@ fun inicio(responsable: () -> Unit, presidencia: () -> Unit,
 fun responsable(
     cerrarsesion: () -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFF2F6FD0)),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = "Pantalla Responsable",
-            color = Color.White,
-            fontSize = 28.sp
-        )
-        Spacer(modifier = Modifier.height(30.dp))
-        Button(
-            onClick = {
-                cerrarsesion()
+    var pantalla by remember { mutableStateOf("inicio") }
+    var menu by remember { mutableStateOf(false) }
+    Scaffold(
+        topBar = {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color(0xFF2F6FD0))
+                    .padding(12.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Box {
+                    TextButton(
+                        onClick = {
+                            menu = true
+                        }
+                    ) {
+                        Text(
+                            text = "☰",
+                            color = Color.White,
+                            fontSize = 28.sp
+                        )
+                    }
+                    DropdownMenu(
+                        expanded = menu,
+                        onDismissRequest = {
+                            menu = false
+                        }
+                    ) {
+                        DropdownMenuItem(
+                            text = {
+                                Text("Cerrar sesión")
+                            },
+                            onClick = {
+                                menu = false
+                                cerrarsesion()
+                            }
+                        )
+                    }
+                }
+                Text(
+                    text = "Staff Nest",
+                    modifier = Modifier.weight(1f),
+                    color = Color.White,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    text = "✿",
+                    color = Color(0xFFD8C4FF),
+                    fontSize = 32.sp
+                )
             }
+        },
+        bottomBar = {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color(0xFF2F6FD0))
+                    .padding(6.dp)
+            ) {
+                botonmenu(
+                    texto = "Inicio",
+                    activo = pantalla == "inicio",
+                    modifier = Modifier.weight(1f)
+                ) {
+                    pantalla = "inicio"
+                }
+                botonmenu(
+                    texto = "Estancias",
+                    activo = pantalla == "estancias",
+                    modifier = Modifier.weight(1f)
+                ) {
+                    pantalla = "estancias"
+                }
+                botonmenu(
+                    texto = "Reportes",
+                    activo = pantalla == "reportes",
+                    modifier = Modifier.weight(1f)
+                ) {
+                    pantalla = "reportes"
+                }
+                botonmenu(
+                    texto = "Perfil",
+                    activo = pantalla == "perfil",
+                    modifier = Modifier.weight(1f)
+                ) {
+                    pantalla = "perfil"
+                }
+            }
+        }
+    ) { espacio -> Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.White)
+                .padding(espacio)
         ) {
-            Text("Cerrar sesión")
+            when (pantalla) {
+                "inicio" -> {
+                    inicioresponsable()
+                }
+                "estancias" -> {
+                    estanciasresponsable()
+                }
+                "reportes" -> {
+                    reportesresponsable()
+                }
+                "perfil" -> {
+                    perfilresponsable()
+                }
+            }
         }
     }
 }
 @Composable
-fun presidencia(
-    cerrarsesion: () -> Unit
-) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFF2F6FD0)),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+fun inicioresponsable() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
     ) {
         Text(
-            text = "Pantalla Presidencia",
-            color = Color.White,
-            fontSize = 28.sp
+            text = "Inicio R",
+            fontSize = 28.sp,
+            fontWeight = FontWeight.Bold
         )
-        Spacer(modifier = Modifier.height(30.dp))
-        Button(
-            onClick = {
-                cerrarsesion()
+    }
+}
+@Composable
+fun estanciasresponsable() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = "Estancias",
+            fontSize = 28.sp,
+            fontWeight = FontWeight.Bold
+        )
+    }
+}
+@Composable
+fun reportesresponsable() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = "Reportes",
+            fontSize = 28.sp,
+            fontWeight = FontWeight.Bold
+        )
+    }
+}
+@Composable
+fun perfilresponsable() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = "Perfil",
+            fontSize = 28.sp,
+            fontWeight = FontWeight.Bold
+        )
+    }
+}
+@Composable
+fun presidencia(cerrarsesion: () -> Unit) {
+    var pantalla by remember { mutableStateOf("estancias") }
+    var menu by remember { mutableStateOf(false) }
+    Scaffold(
+        topBar = {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color(0xFF2F6FD0))
+                    .padding(12.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Box {
+                    TextButton(
+                        onClick = {
+                            menu = true
+                        }
+                    ) {
+                        Text(
+                            text = "☰",
+                            color = Color.White,
+                            fontSize = 28.sp
+                        )
+                    }
+                    DropdownMenu(
+                        expanded = menu,
+                        onDismissRequest = {
+                            menu = false
+                        }
+                    ) {
+                        DropdownMenuItem(
+                            text = {
+                                Text("Cerrar sesión")
+                            },
+                            onClick = {
+                                menu = false
+                                cerrarsesion()
+                            }
+                        )
+                    }
+                }
+                Text(
+                    text = "Staff Nest",
+                    modifier = Modifier.weight(1f),
+                    color = Color.White,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    text = "✿",
+                    color = Color(0xFFD8C4FF),
+                    fontSize = 32.sp
+                )
             }
-        ) {
-            Text("Cerrar sesión")
+        },
+        bottomBar = {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color(0xFF2F6FD0))
+                    .padding(6.dp)
+            ) {
+                botonmenu(
+                    texto = "Estancias",
+                    activo = pantalla == "estancias",
+                    modifier = Modifier.weight(1f)
+                ) {
+                    pantalla = "estancias"
+                }
+                botonmenu(
+                    texto = "Estadísticas",
+                    activo = pantalla == "estadisticas",
+                    modifier = Modifier.weight(1f)
+                ) {
+                    pantalla = "estadisticas"
+                }
+                botonmenu(
+                    texto = "Reportes",
+                    activo = pantalla == "reportes",
+                    modifier = Modifier.weight(1f)
+                ) {
+                    pantalla = "reportes"
+                }
+                botonmenu(
+                    texto = "Personal",
+                    activo = pantalla == "personal",
+                    modifier = Modifier.weight(1f)
+                ) {
+                    pantalla = "personal"
+                }
+            }
         }
+    ) { espacio -> Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.White)
+                .padding(espacio)
+        ) {
+            when (pantalla) {
+                "estancias" -> {
+                    estancias()
+                }
+                "estadisticas" -> {
+                    estadisticas()
+                }
+                "reportes" -> {
+                    reportes()
+                }
+                "personal" -> {
+                    personal()
+                }
+            }
+        }
+    }
+}
+@Composable
+fun botonmenu(
+    texto: String,
+    activo: Boolean,
+    modifier: Modifier = Modifier,
+    accion: () -> Unit
+) {
+    Button(
+        onClick = {
+            accion()
+        },
+        modifier = modifier,
+        colors = ButtonDefaults.buttonColors(
+            containerColor =
+                if (activo) {
+                    Color(0xFFFFC83D)
+                } else {
+                    Color(0xFF2F6FD0)
+                }
+        )
+    ) {
+        Text(
+            text = texto,
+            color =
+                if (activo) {
+                    Color.Black
+                } else {
+                    Color.White
+                },
+            fontSize = 10.sp
+        )
+    }
+}
+
+@Composable
+fun estancias() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = "Estancias",
+            fontSize = 28.sp,
+            fontWeight = FontWeight.Bold
+        )
+    }
+}
+@Composable
+fun estadisticas() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = "Estadísticas",
+            fontSize = 28.sp,
+            fontWeight = FontWeight.Bold
+        )
+    }
+}
+@Composable
+fun reportes() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = "Reportes",
+            fontSize = 28.sp,
+            fontWeight = FontWeight.Bold
+        )
+    }
+}
+@Composable
+fun personal() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = "Personal",
+            fontSize = 28.sp,
+            fontWeight = FontWeight.Bold
+        )
     }
 }
 @Composable
 fun coordinador(
     cerrarsesion: () -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFF2F6FD0)),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+    var pantalla by remember { mutableStateOf("inicio") }
+    var menu by remember { mutableStateOf(false) }
+    Scaffold(
+        topBar = {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color(0xFF2F6FD0))
+                    .padding(12.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Box {
+                    TextButton(
+                        onClick = {
+                            menu = true
+                        }
+                    ) {
+                        Text(
+                            text = "☰",
+                            color = Color.White,
+                            fontSize = 28.sp
+                        )
+                    }
+                    DropdownMenu(
+                        expanded = menu,
+                        onDismissRequest = {
+                            menu = false
+                        }
+                    ) {
+                        DropdownMenuItem(
+                            text = {
+                                Text("Cerrar sesión")
+                            },
+                            onClick = {
+                                menu = false
+                                cerrarsesion()
+                            }
+                        )
+                    }
+                }
+                Text(
+                    text = "Staff Nest",
+                    modifier = Modifier.weight(1f),
+                    color = Color.White,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    text = "✿",
+                    color = Color(0xFFD8C4FF),
+                    fontSize = 32.sp
+                )
+            }
+        },
+        bottomBar = {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color(0xFF2F6FD0))
+                    .padding(6.dp)
+            ) {
+                botonmenu(
+                    texto = "Inicio",
+                    activo = pantalla == "inicio",
+                    modifier = Modifier.weight(1f)
+                ) {
+                    pantalla = "inicio"
+                }
+                botonmenu(
+                    texto = "Estancias",
+                    activo = pantalla == "estancias",
+                    modifier = Modifier.weight(1f)
+                ) {
+                    pantalla = "estancias"
+                }
+                botonmenu(
+                    texto = "Reportes",
+                    activo = pantalla == "reportes",
+                    modifier = Modifier.weight(1f)
+                ) {
+                    pantalla = "reportes"
+                }
+                botonmenu(
+                    texto = "Perfil",
+                    activo = pantalla == "perfil",
+                    modifier = Modifier.weight(1f)
+                ) {
+                    pantalla = "perfil"
+                }
+            }
+        }
+    ) { espacio -> Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.White)
+                .padding(espacio)
+        ) {
+            when (pantalla) {
+                "inicio" -> {
+                    iniciocoordinador()
+                }
+                "estancias" -> {
+                    estanciascoordinador()
+                }
+                "reportes" -> {
+                    reportescoordinador()
+                }
+                "perfil" -> {
+                    perfilcoordinador()
+                }
+            }
+        }
+    }
+}
+@Composable
+fun iniciocoordinador() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
     ) {
         Text(
-            text = "Pantalla Coordinador",
-            color = Color.White,
-            fontSize = 28.sp
+            text = "Inicio C",
+            fontSize = 28.sp,
+            fontWeight = FontWeight.Bold
         )
-        Spacer(modifier = Modifier.height(30.dp))
-        Button(
-            onClick = {
-                cerrarsesion()
-            }
-        ) {
-            Text("Cerrar sesión")
-        }
+    }
+}
+@Composable
+fun estanciascoordinador() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = "Estancias",
+            fontSize = 28.sp,
+            fontWeight = FontWeight.Bold
+        )
+    }
+}
+@Composable
+fun reportescoordinador() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = "Reportes",
+            fontSize = 28.sp,
+            fontWeight = FontWeight.Bold
+        )
+    }
+}
+@Composable
+fun perfilcoordinador() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = "Perfil",
+            fontSize = 28.sp,
+            fontWeight = FontWeight.Bold
+        )
     }
 }
 @Composable
 fun empleado(
     cerrarsesion: () -> Unit
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color(0xFF2F6FD0)),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+    var pantalla by remember { mutableStateOf("registro") }
+    var menu by remember { mutableStateOf(false) }
+    Scaffold(
+        topBar = {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color(0xFF2F6FD0))
+                    .padding(12.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Box {
+                    TextButton(
+                        onClick = {
+                            menu = true
+                        }
+                    ) {
+                        Text(
+                            text = "☰",
+                            color = Color.White,
+                            fontSize = 28.sp
+                        )
+                    }
+                    DropdownMenu(
+                        expanded = menu,
+                        onDismissRequest = {
+                            menu = false
+                        }
+                    ) {
+                        DropdownMenuItem(
+                            text = {
+                                Text("Cerrar sesión")
+                            },
+                            onClick = {
+                                menu = false
+                                cerrarsesion()
+                            }
+                        )
+                    }
+                }
+                Text(
+                    text = "Staff Nest",
+                    modifier = Modifier.weight(1f),
+                    color = Color.White,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    text = "✿",
+                    color = Color(0xFFD8C4FF),
+                    fontSize = 32.sp
+                )
+            }
+        },
+        bottomBar = {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color(0xFF2F6FD0))
+                    .padding(6.dp)
+            ) {
+                botonmenu(
+                    texto = "Registro",
+                    activo = pantalla == "registro",
+                    modifier = Modifier.weight(1f)
+                ) {
+                    pantalla = "registro"
+                }
+                botonmenu(
+                    texto = "Mi horario",
+                    activo = pantalla == "horario",
+                    modifier = Modifier.weight(1f)
+                ) {
+                    pantalla = "horario"
+                }
+                botonmenu(
+                    texto = "Estadísticas",
+                    activo = pantalla == "estadisticas",
+                    modifier = Modifier.weight(1f)
+                ) {
+                    pantalla = "estadisticas"
+                }
+            }
+        }
+    ) { espacio -> Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.White)
+                .padding(espacio)
+        ) {
+            when (pantalla) {
+                "registro" -> {
+                    registroempleado()
+                }
+                "horario" -> {
+                    horarioempleado()
+                }
+                "estadisticas" -> {
+                    estadisticasempleado()
+                }
+            }
+        }
+    }
+}
+@Composable
+fun registroempleado() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
     ) {
         Text(
-            text = "Pantalla Empleado",
-            color = Color.White,
-            fontSize = 28.sp
+            text = "Registro",
+            fontSize = 28.sp,
+            fontWeight = FontWeight.Bold
         )
-        Spacer(modifier = Modifier.height(30.dp))
-        Button(
-            onClick = {
-                cerrarsesion()
-            }
-        ) {
-            Text("Cerrar sesión")
-        }
+    }
+}
+@Composable
+fun horarioempleado() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = "Mi horario",
+            fontSize = 28.sp,
+            fontWeight = FontWeight.Bold
+        )
+    }
+}
+@Composable
+fun estadisticasempleado() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = "Estadísticas",
+            fontSize = 28.sp,
+            fontWeight = FontWeight.Bold
+        )
     }
 }
