@@ -1,5 +1,5 @@
 package com.example.staffnest
-
+import androidx.compose.material3.MaterialTheme
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -124,7 +124,7 @@ fun inicio(responsable: () -> Unit, presidencia: () -> Unit,
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF2F6FD0))
+            .background(MaterialTheme.colorScheme.primary)
             .verticalScroll(rememberScrollState())
             .padding(24.dp)
     ) {
@@ -132,20 +132,22 @@ fun inicio(responsable: () -> Unit, presidencia: () -> Unit,
         Text(
             text = "✿",
             fontSize = 70.sp,
-            color = Color(0xFFD8C4FF)
+            color = MaterialTheme.colorScheme.onPrimary
         )
         Spacer(modifier = Modifier.height(20.dp))
         Text(
             text = "Bienvenido!!!",
             fontSize = 34.sp,
             fontWeight = FontWeight.Bold,
-            color = Color.White
+            style = MaterialTheme.typography.headlineLarge,
+            color = MaterialTheme.colorScheme.onPrimary
         )
         Spacer(modifier = Modifier.height(30.dp))
         Card(
             modifier = Modifier.fillMaxWidth(),
             colors = CardDefaults.cardColors(
-                containerColor = Color(0xFFFFC83D)
+                containerColor = MaterialTheme.colorScheme.surface,
+                contentColor = MaterialTheme.colorScheme.onSurface
             )
         ) {
             Column(
@@ -262,7 +264,7 @@ fun responsable(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color(0xFF2F6FD0))
+                    .background(MaterialTheme.colorScheme.primary)
                     .padding(12.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -274,7 +276,7 @@ fun responsable(
                     ) {
                         Text(
                             text = "☰",
-                            color = Color.White,
+                            color = MaterialTheme.colorScheme.onPrimary,
                             fontSize = 28.sp
                         )
                     }
@@ -298,13 +300,13 @@ fun responsable(
                 Text(
                     text = "Staff Nest",
                     modifier = Modifier.weight(1f),
-                    color = Color.White,
+                    color = MaterialTheme.colorScheme.onPrimary,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
                     text = "✿",
-                    color = Color(0xFFD8C4FF),
+                    color = MaterialTheme.colorScheme.onPrimary,
                     fontSize = 32.sp
                 )
             }
@@ -313,7 +315,7 @@ fun responsable(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color(0xFF2F6FD0))
+                    .background(MaterialTheme.colorScheme.primary)
                     .padding(6.dp)
             ) {
                 botonmenu(
@@ -349,7 +351,7 @@ fun responsable(
     ) { espacio -> Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.White)
+                .background(MaterialTheme.colorScheme.background)
                 .padding(espacio)
         ) {
             when (pantalla) {
@@ -430,7 +432,7 @@ fun presidencia(cerrarsesion: () -> Unit) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color(0xFF2F6FD0))
+                    .background(MaterialTheme.colorScheme.primary)
                     .padding(12.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -442,7 +444,7 @@ fun presidencia(cerrarsesion: () -> Unit) {
                     ) {
                         Text(
                             text = "☰",
-                            color = Color.White,
+                            color = MaterialTheme.colorScheme.onPrimary,
                             fontSize = 28.sp
                         )
                     }
@@ -466,13 +468,13 @@ fun presidencia(cerrarsesion: () -> Unit) {
                 Text(
                     text = "Staff Nest",
                     modifier = Modifier.weight(1f),
-                    color = Color.White,
+                    color = MaterialTheme.colorScheme.onPrimary,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
                     text = "✿",
-                    color = Color(0xFFD8C4FF),
+                    color = MaterialTheme.colorScheme.onPrimary,
                     fontSize = 32.sp
                 )
             }
@@ -481,7 +483,7 @@ fun presidencia(cerrarsesion: () -> Unit) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color(0xFF2F6FD0))
+                    .background(MaterialTheme.colorScheme.primary)
                     .padding(6.dp)
             ) {
                 botonmenu(
@@ -517,7 +519,7 @@ fun presidencia(cerrarsesion: () -> Unit) {
     ) { espacio -> Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.White)
+                .background(MaterialTheme.colorScheme.background)
                 .padding(espacio)
         ) {
             when (pantalla) {
@@ -545,27 +547,23 @@ fun botonmenu(
     accion: () -> Unit
 ) {
     Button(
-        onClick = {
-            accion()
-        },
+        onClick = accion,
         modifier = modifier,
         colors = ButtonDefaults.buttonColors(
-            containerColor =
-                if (activo) {
-                    Color(0xFFFFC83D)
-                } else {
-                    Color(0xFF2F6FD0)
-                }
+            containerColor = if (activo) {
+                MaterialTheme.colorScheme.primaryContainer
+            } else {
+                MaterialTheme.colorScheme.primary
+            },
+            contentColor = if (activo) {
+                MaterialTheme.colorScheme.onPrimaryContainer
+            } else {
+                MaterialTheme.colorScheme.onPrimary
+            }
         )
     ) {
         Text(
             text = texto,
-            color =
-                if (activo) {
-                    Color.Black
-                } else {
-                    Color.White
-                },
             fontSize = 10.sp
         )
     }
@@ -634,7 +632,7 @@ fun coordinador(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color(0xFF2F6FD0))
+                    .background(MaterialTheme.colorScheme.primary)
                     .padding(12.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -646,7 +644,7 @@ fun coordinador(
                     ) {
                         Text(
                             text = "☰",
-                            color = Color.White,
+                            color = MaterialTheme.colorScheme.onPrimary,
                             fontSize = 28.sp
                         )
                     }
@@ -670,13 +668,13 @@ fun coordinador(
                 Text(
                     text = "Staff Nest",
                     modifier = Modifier.weight(1f),
-                    color = Color.White,
+                    color = MaterialTheme.colorScheme.onPrimary,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
                     text = "✿",
-                    color = Color(0xFFD8C4FF),
+                    color = MaterialTheme.colorScheme.onPrimary,
                     fontSize = 32.sp
                 )
             }
@@ -685,7 +683,7 @@ fun coordinador(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color(0xFF2F6FD0))
+                    .background(MaterialTheme.colorScheme.primary)
                     .padding(6.dp)
             ) {
                 botonmenu(
@@ -721,7 +719,7 @@ fun coordinador(
     ) { espacio -> Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.White)
+                .background(MaterialTheme.colorScheme.background)
                 .padding(espacio)
         ) {
             when (pantalla) {
@@ -804,7 +802,7 @@ fun empleado(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color(0xFF2F6FD0))
+                    .background(MaterialTheme.colorScheme.primary)
                     .padding(12.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -816,7 +814,7 @@ fun empleado(
                     ) {
                         Text(
                             text = "☰",
-                            color = Color.White,
+                            color = MaterialTheme.colorScheme.onPrimary,
                             fontSize = 28.sp
                         )
                     }
@@ -840,13 +838,13 @@ fun empleado(
                 Text(
                     text = "Staff Nest",
                     modifier = Modifier.weight(1f),
-                    color = Color.White,
+                    color = MaterialTheme.colorScheme.onPrimary,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
                     text = "✿",
-                    color = Color(0xFFD8C4FF),
+                    color = MaterialTheme.colorScheme.onPrimary,
                     fontSize = 32.sp
                 )
             }
@@ -855,7 +853,7 @@ fun empleado(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color(0xFF2F6FD0))
+                    .background(MaterialTheme.colorScheme.primary)
                     .padding(6.dp)
             ) {
                 botonmenu(
@@ -884,7 +882,7 @@ fun empleado(
     ) { espacio -> Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.White)
+                .background(MaterialTheme.colorScheme.background)
                 .padding(espacio)
         ) {
             when (pantalla) {
