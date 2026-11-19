@@ -9,10 +9,18 @@ sealed class Ruta(val ruta: String) {
 }
 
 sealed class RutaPresidencia(val ruta: String) {
-    object Estancias : RutaPresidencia("estancias")
-    object Estadisticas : RutaPresidencia("estadisticas")
-    object Reportes : RutaPresidencia("reportes")
-    object Personal : RutaPresidencia("personal")
+    object Estancias :
+        RutaPresidencia("presidencia_estancias")
+    object Estadisticas :
+        RutaPresidencia("presidencia_estadisticas")
+    object Reportes :
+        RutaPresidencia("presidencia_reportes")
+    object Personal :
+        RutaPresidencia("presidencia_personal")
+    object DetalleEstancia :
+        RutaPresidencia("presidencia_detalle_estancia")
+    object DetalleSala :
+        RutaPresidencia("presidencia_detalle_sala")
 }
 
 sealed class RutaEmpleado(val ruta: String) {

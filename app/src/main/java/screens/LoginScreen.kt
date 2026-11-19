@@ -104,7 +104,7 @@ fun login(
             ) {
 
                 Text(
-                    text = "Correo institucional",
+                    text = "Correo",
                     color = MaterialTheme.colorScheme.onSurface
                 )
 
@@ -208,7 +208,7 @@ fun login(
                                 usuario ==
                                         "presidencia@presidencia.com" &&
                                         contrasena ==
-                                        "presi123" -> {
+                                        "123" -> {
 
                                     entrar(
                                         Perfil.PRESIDENCIA
@@ -219,7 +219,7 @@ fun login(
                                 usuario ==
                                         "responsable@responsable.com" &&
                                         contrasena ==
-                                        "respon123" -> {
+                                        "123" -> {
 
                                     entrar(
                                         Perfil.RESPONSABLE
@@ -230,7 +230,7 @@ fun login(
                                 usuario ==
                                         "coordinador@coordinador.com" &&
                                         contrasena ==
-                                        "coord123" -> {
+                                        "123" -> {
 
                                     entrar(
                                         Perfil.COORDINADOR
@@ -241,7 +241,7 @@ fun login(
                                 usuario ==
                                         "empleado@empleado.com" &&
                                         contrasena ==
-                                        "empleado123" -> {
+                                        "123" -> {
 
                                     entrar(
                                         Perfil.EMPLEADO
