@@ -129,29 +129,40 @@ fun empleado(
             composable(
                 RutaEmpleado.Registro.ruta
             ) {
-
                 registroempleado()
             }
 
             composable(
                 RutaEmpleado.Horario.ruta
             ) {
-
-                pantallavacia("Mi horario")
+                horarioempleado()
             }
 
             composable(
                 RutaEmpleado.Estadisticas.ruta
             ) {
-
-                pantallavacia("Estadísticas")
+                estadisticasempleado(
+                    verHistorial = {
+                        nav.navigate(
+                            RutaEmpleado.Historial.ruta
+                        )
+                    }
+                )
+            }
+            composable(
+                RutaEmpleado.Historial.ruta
+            ) {
+                historialasistenciaempleado(
+                    regresar = {
+                        nav.popBackStack()
+                    }
+                )
             }
 
             composable(
                 RutaEmpleado.Solicitudes.ruta
             ) {
-
-                pantallavacia("Solicitudes")
+                solicitudesempleado()
             }
         }
     }

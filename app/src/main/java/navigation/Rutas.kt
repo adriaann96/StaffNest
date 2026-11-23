@@ -28,6 +28,7 @@ sealed class RutaEmpleado(val ruta: String) {
     object Horario : RutaEmpleado("horario")
     object Estadisticas : RutaEmpleado("estadisticas")
     object Solicitudes : RutaEmpleado("solicitudes")
+    object Historial : RutaEmpleado("empleado_historial")
 }
 
 sealed class RutaResponsable(val ruta: String) {
