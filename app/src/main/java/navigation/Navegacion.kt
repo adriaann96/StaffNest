@@ -6,7 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.staffnest.model.Perfil
-import com.example.staffnest.screens.coordinador
+import com.example.staffnest.screens.asistente
 import com.example.staffnest.screens.empleado
 import com.example.staffnest.screens.login
 import com.example.staffnest.screens.presidencia
@@ -36,9 +36,9 @@ fun navegacion() {
                                 Ruta.Responsable.ruta
                             )
                         }
-                        Perfil.COORDINADOR -> {
+                        Perfil.ASISTENTE -> {
                             nav.navigate(
-                                Ruta.Coordinador.ruta
+                                Ruta.Asistente.ruta
                             )
                         }
                         Perfil.EMPLEADO -> {
@@ -69,9 +69,9 @@ fun navegacion() {
             )
         }
         composable(
-            Ruta.Coordinador.ruta
+            Ruta.Asistente.ruta
         ) {
-            coordinador(
+            asistente(
                 cerrarsesion = {
                     cerrarsesion(nav)
                 }

@@ -13,10 +13,10 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.staffnest.components.barrasuperior
 import com.example.staffnest.components.botonmenu
-import com.example.staffnest.navigation.RutaCoordinador
+import com.example.staffnest.navigation.RutaAsistente
 import androidx.compose.material3.MaterialTheme
 @Composable
-fun coordinador(
+fun asistente(
     cerrarsesion: () -> Unit
 ) {
     val nav = rememberNavController()
@@ -37,38 +37,38 @@ fun coordinador(
             ) {
                 botonmenu(
                     texto = "Inicio",
-                    activo = actual == RutaCoordinador.Inicio.ruta,
+                    activo = actual == RutaAsistente.Inicio.ruta,
                     modifier = Modifier.weight(1f)
                 ) {
                     nav.navigate(
-                        RutaCoordinador.Inicio.ruta
+                        RutaAsistente.Inicio.ruta
                     )
                 }
                 botonmenu(
                     texto = "Estancias",
-                    activo = actual == RutaCoordinador.Estancias.ruta,
+                    activo = actual == RutaAsistente.Estancias.ruta,
                     modifier = Modifier.weight(1f)
                 ) {
                     nav.navigate(
-                        RutaCoordinador.Estancias.ruta
+                        RutaAsistente.Estancias.ruta
                     )
                 }
                 botonmenu(
                     texto = "Reportes",
-                    activo = actual == RutaCoordinador.Reportes.ruta,
+                    activo = actual == RutaAsistente.Reportes.ruta,
                     modifier = Modifier.weight(1f)
                 ) {
                     nav.navigate(
-                        RutaCoordinador.Reportes.ruta
+                        RutaAsistente.Reportes.ruta
                     )
                 }
                 botonmenu(
                     texto = "Perfil",
-                    activo = actual == RutaCoordinador.Perfil.ruta,
+                    activo = actual == RutaAsistente.Perfil.ruta,
                     modifier = Modifier.weight(1f)
                 ) {
                     nav.navigate(
-                        RutaCoordinador.Perfil.ruta
+                        RutaAsistente.Perfil.ruta
                     )
                 }
             }
@@ -77,28 +77,28 @@ fun coordinador(
     ) { espacio ->
         NavHost(
             navController = nav,
-            startDestination = RutaCoordinador.Inicio.ruta,
+            startDestination = RutaAsistente.Inicio.ruta,
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.background)
                 .padding(espacio)
         ) {
             composable(
-                RutaCoordinador.Inicio.ruta
+                RutaAsistente.Inicio.ruta
             ) {
-                pantallavacia("Inicio Coordinador")
+                pantallavacia("Inicio Asistente")
             }
             composable(
-                RutaCoordinador.Estancias.ruta
+                RutaAsistente.Estancias.ruta
             ) {
                 pantallavacia("Estancias")
             }
             composable(
-                RutaCoordinador.Reportes.ruta
+                RutaAsistente.Reportes.ruta
             ) {
                 pantallavacia("Reportes")
             }
             composable(
-                RutaCoordinador.Perfil.ruta
+                RutaAsistente.Perfil.ruta
             ) {
                 pantallavacia("Perfil")
             }

@@ -4,7 +4,7 @@ sealed class Ruta(val ruta: String) {
     object Login : Ruta("login")
     object Presidencia : Ruta("presidencia")
     object Responsable : Ruta("responsable")
-    object Coordinador : Ruta("coordinador")
+    object Asistente : Ruta("asistente")
     object Empleado : Ruta("empleado")
 }
 
@@ -33,14 +33,16 @@ sealed class RutaEmpleado(val ruta: String) {
 
 sealed class RutaResponsable(val ruta: String) {
     object Inicio : RutaResponsable("inicio")
-    object Estancias : RutaResponsable("estancias")
-    object Reportes : RutaResponsable("reportes")
-    object Perfil : RutaResponsable("perfil")
+    object Personal : RutaResponsable("personal")
+    object Horarios : RutaResponsable("horarios")
+    object Incidencias : RutaResponsable("incidencias")
+    object Asistencia : RutaResponsable("responsable_asistencia")
+    object DetalleSala : RutaResponsable("responsable_detalle_sala/{salaId}")
 }
 
-sealed class RutaCoordinador(val ruta: String) {
-    object Inicio : RutaCoordinador("inicio")
-    object Estancias : RutaCoordinador("estancias")
-    object Reportes : RutaCoordinador("reportes")
-    object Perfil : RutaCoordinador("perfil")
+sealed class RutaAsistente(val ruta: String) {
+    object Inicio : RutaAsistente("inicio")
+    object Estancias : RutaAsistente("estancias")
+    object Reportes : RutaAsistente("reportes")
+    object Perfil : RutaAsistente("perfil")
 }

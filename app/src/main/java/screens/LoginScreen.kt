@@ -228,12 +228,12 @@ fun login(
 
 
                                 usuario ==
-                                        "coordinador@coordinador.com" &&
+                                        "asistente@asistente.com" &&
                                         contrasena ==
                                         "123" -> {
 
                                     entrar(
-                                        Perfil.COORDINADOR
+                                        Perfil.ASISTENTE
                                     )
                                 }
 
