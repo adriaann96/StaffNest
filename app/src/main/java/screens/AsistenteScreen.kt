@@ -2,10 +2,13 @@ package com.example.staffnest.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -13,15 +16,26 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.staffnest.components.barrasuperior
 import com.example.staffnest.components.botonmenu
+import com.example.staffnest.model.listaEstanciasPresidencia
 import com.example.staffnest.navigation.RutaAsistente
-import androidx.compose.material3.MaterialTheme
+
 @Composable
 fun asistente(
     cerrarsesion: () -> Unit
 ) {
     val nav = rememberNavController()
-    val entrada = nav.currentBackStackEntryAsState()
-    val actual = entrada.value?.destination?.route
+
+    val entrada by nav.currentBackStackEntryAsState()
+
+    val actual = entrada?.destination?.route
+
+    // Permisos hardcodeados
+    // Cambiar dinámicamente con el responsable en el próximo avance
+    val verSalas = false
+    val gestionarPersonal = false
+    val gestionarHorarios = false
+    val gestionarIncidencias = false
+    val registrarAsistencia = false
 
     Scaffold(
         topBar = {
@@ -29,12 +43,16 @@ fun asistente(
                 cerrarsesion = cerrarsesion
             )
         },
+
         bottomBar = {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.primary)
+                    .background(
+                        MaterialTheme.colorScheme.primary
+                    )
             ) {
+
                 botonmenu(
                     texto = "Inicio",
                     activo = actual == RutaAsistente.Inicio.ruta,
@@ -44,63 +62,159 @@ fun asistente(
                         RutaAsistente.Inicio.ruta
                     )
                 }
-                botonmenu(
-                    texto = "Estancias",
-                    activo = actual == RutaAsistente.Estancias.ruta,
-                    modifier = Modifier.weight(1f)
-                ) {
-                    nav.navigate(
-                        RutaAsistente.Estancias.ruta
-                    )
+
+                if (gestionarPersonal) {
+                    botonmenu(
+                        texto = "Personal",
+                        activo = actual == RutaAsistente.Personal.ruta,
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        nav.navigate(
+                            RutaAsistente.Personal.ruta
+                        )
+                    }
                 }
-                botonmenu(
-                    texto = "Reportes",
-                    activo = actual == RutaAsistente.Reportes.ruta,
-                    modifier = Modifier.weight(1f)
-                ) {
-                    nav.navigate(
-                        RutaAsistente.Reportes.ruta
-                    )
+
+                if (gestionarHorarios) {
+                    botonmenu(
+                        texto = "Horarios",
+                        activo = actual == RutaAsistente.Horarios.ruta,
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        nav.navigate(
+                            RutaAsistente.Horarios.ruta
+                        )
+                    }
                 }
-                botonmenu(
-                    texto = "Perfil",
-                    activo = actual == RutaAsistente.Perfil.ruta,
-                    modifier = Modifier.weight(1f)
-                ) {
-                    nav.navigate(
-                        RutaAsistente.Perfil.ruta
-                    )
+
+                if (gestionarIncidencias) {
+                    botonmenu(
+                        texto = "Incidencias",
+                        activo = actual == RutaAsistente.Incidencias.ruta,
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        nav.navigate(
+                            RutaAsistente.Incidencias.ruta
+                        )
+                    }
                 }
             }
         }
 
-    ) { espacio ->
+    ) { paddingValues ->
+
         NavHost(
             navController = nav,
+
             startDestination = RutaAsistente.Inicio.ruta,
+
             modifier = Modifier
-                .background(MaterialTheme.colorScheme.background)
-                .padding(espacio)
+                .fillMaxSize()
+                .padding(paddingValues)
         ) {
+
             composable(
                 RutaAsistente.Inicio.ruta
             ) {
-                pantallavacia("Inicio Asistente")
+                inicioasistente(
+                    verSalas = verSalas,
+                    gestionarPersonal = gestionarPersonal,
+                    gestionarHorarios = gestionarHorarios,
+                    gestionarIncidencias = gestionarIncidencias,
+                    puedeRegistrarAsistencia = registrarAsistencia,
+
+                    registrarAsistencia = {
+                        nav.navigate(
+                            RutaAsistente.Asistencia.ruta
+                        )
+                    },
+
+                    verSala = { salaId ->
+                        nav.navigate(
+                            "asistente_detalle_sala/$salaId"
+                        )
+                    }
+                )
             }
+
             composable(
-                RutaAsistente.Estancias.ruta
+                RutaAsistente.Personal.ruta
             ) {
-                pantallavacia("Estancias")
+                if (gestionarPersonal) {
+                    personalresponsable()
+                } else {
+                    pantallavacia("Acceso no autorizado")
+                }
             }
+
             composable(
-                RutaAsistente.Reportes.ruta
+                RutaAsistente.Horarios.ruta
             ) {
-                pantallavacia("Reportes")
+                if (gestionarHorarios) {
+                    horariosresponsable()
+                } else {
+                    pantallavacia("Acceso no autorizado")
+                }
             }
+
             composable(
-                RutaAsistente.Perfil.ruta
+                RutaAsistente.Incidencias.ruta
             ) {
-                pantallavacia("Perfil")
+                if (gestionarIncidencias) {
+                    incidenciasresponsable()
+                } else {
+                    pantallavacia("Acceso no autorizado")
+                }
+            }
+
+            composable(
+                RutaAsistente.Asistencia.ruta
+            ) {
+                if (registrarAsistencia) {
+                    asistenciaresponsable(
+                        regresar = {
+                            nav.popBackStack()
+                        }
+                    )
+                } else {
+                    pantallavacia("Acceso no autorizado")
+                }
+            }
+
+            composable(
+                RutaAsistente.DetalleSala.ruta
+            ) { backStackEntry ->
+
+                if (verSalas) {
+
+                    val salaId =
+                        backStackEntry
+                            .arguments
+                            ?.getString("salaId")
+                            ?.toIntOrNull()
+
+                    val estancia =
+                        listaEstanciasPresidencia.first {
+                            it.id == 2
+                        }
+
+                    val sala =
+                        estancia.salas.firstOrNull {
+                            it.id == salaId
+                        }
+
+                    if (sala != null) {
+                        detallesala(
+                            sala = sala,
+                            regresar = {
+                                nav.popBackStack()
+                            }
+                        )
+                    }
+
+                } else {
+                    pantallavacia("Acceso no autorizado")
+                }
             }
         }
     }

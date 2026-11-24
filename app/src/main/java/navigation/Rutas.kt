@@ -41,8 +41,10 @@ sealed class RutaResponsable(val ruta: String) {
 }
 
 sealed class RutaAsistente(val ruta: String) {
-    object Inicio : RutaAsistente("inicio")
-    object Estancias : RutaAsistente("estancias")
-    object Reportes : RutaAsistente("reportes")
-    object Perfil : RutaAsistente("perfil")
+    object Inicio : RutaAsistente("asistente_inicio")
+    object Personal : RutaAsistente("asistente_personal")
+    object Horarios : RutaAsistente("asistente_horarios")
+    object Incidencias : RutaAsistente("asistente_incidencias")
+    object Asistencia : RutaAsistente("asistente_asistencia")
+    object DetalleSala : RutaAsistente("asistente_detalle_sala/{salaId}")
 }
