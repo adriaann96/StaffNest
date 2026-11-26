@@ -94,12 +94,45 @@ fun solicitudesempleado() {
         )
 
         tarjetasolicitud(
-            titulo = "Salida temprana",
+            titulo = "Salida anticipada",
             descripcion =
                 "Solicita salir antes de tu horario programado."
         ) {
+            tipoSolicitud = "salida_anticipada"
+            fecha = ""
+            fechaFin = ""
+            horaSalida = ""
+            motivo = ""
+            mensaje = ""
+        }
 
-            tipoSolicitud = "salida"
+        Spacer(
+            modifier = Modifier.height(12.dp)
+        )
+
+        tarjetasolicitud(
+            titulo = "Aclaración de retraso",
+            descripcion =
+                "Explica el motivo de un retraso registrado."
+        ) {
+            tipoSolicitud = "aclaracion_retraso"
+            fecha = ""
+            fechaFin = ""
+            horaSalida = ""
+            motivo = ""
+            mensaje = ""
+        }
+
+        Spacer(
+            modifier = Modifier.height(12.dp)
+        )
+
+        tarjetasolicitud(
+            titulo = "Cambio de turno",
+            descripcion =
+                "Solicita un cambio en tu turno asignado."
+        ) {
+            tipoSolicitud = "cambio_turno"
             fecha = ""
             fechaFin = ""
             horaSalida = ""
@@ -219,7 +252,7 @@ fun solicitudesempleado() {
                             "La fecha final no puede ser anterior a la fecha de inicio"
 
                     } else if (
-                        tipoSolicitud == "salida"
+                        tipoSolicitud == "salida_anticipada"
                         && horaSalida.isBlank()
                     ) {
 
@@ -227,7 +260,7 @@ fun solicitudesempleado() {
                             "Falta seleccionar la hora de salida"
 
                     } else if (
-                        tipoSolicitud == "salida"
+                        tipoSolicitud == "salida_anticipada"
                         && !horavalida(
                             horaSalida = horaSalida,
                             finTurno = finTurno
@@ -312,7 +345,7 @@ fun solicitudesempleado() {
 
 
         solicitudguardada(
-            tipo = "Salida temprana",
+            tipo = "Salida anticipada",
             fecha =
                 "23/11/2026 - 14:00",
             estado = "Aprobada",
@@ -570,14 +603,20 @@ fun formulariosolicitud(
                         tipoSolicitud
                     ) {
 
-                        "salida" ->
-                            "Solicitud de salida temprana"
+                        "salida_anticipada" ->
+                            "Solicitud de salida anticipada"
+
+                        "aclaracion_retraso" ->
+                            "Aclaración de retraso"
 
                         "vacaciones" ->
                             "Solicitud de vacaciones"
 
                         "permiso" ->
                             "Solicitud de permiso"
+
+                        "cambio_turno" ->
+                            "Solicitud de cambio de turno"
 
                         else ->
                             "Solicitud"
@@ -675,7 +714,7 @@ fun formulariosolicitud(
 
             if (
                 tipoSolicitud ==
-                "salida"
+                "salida_anticipada"
             ) {
 
                 Spacer(

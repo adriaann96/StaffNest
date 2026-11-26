@@ -33,7 +33,9 @@ import androidx.compose.ui.unit.sp
 data class TurnoResponsable(
     val nombre: String,
     val horaInicio: String,
-    val horaFin: String
+    val horaFin: String,
+    val toleranciaInicio: Int,
+    val toleranciaFin: Int
 )
 
 data class HorarioPersonalResponsable(
@@ -52,13 +54,17 @@ fun horariosresponsable() {
             TurnoResponsable(
                 nombre = "Matutino",
                 horaInicio = "08:00",
-                horaFin = "16:00"
+                horaFin = "16:00",
+                toleranciaInicio = 10,
+                toleranciaFin = 10
             ),
 
             TurnoResponsable(
                 nombre = "Vespertino",
                 horaInicio = "14:00",
-                horaFin = "20:00"
+                horaFin = "20:00",
+                toleranciaInicio = 10,
+                toleranciaFin = 10
             )
         )
 
@@ -355,6 +361,26 @@ fun tarjetaTurnoResponsable(
 
                 color =
                     MaterialTheme.colorScheme.primary
+            )
+
+            Spacer(
+                modifier = Modifier.height(5.dp)
+            )
+
+            Text(
+                text =
+                    "Tolerancia entrada: ${turno.toleranciaInicio} min",
+                fontSize = 14.sp,
+                color =
+                    MaterialTheme.colorScheme.onBackground
+            )
+
+            Text(
+                text =
+                    "Tolerancia salida: ${turno.toleranciaFin} min",
+                fontSize = 14.sp,
+                color =
+                    MaterialTheme.colorScheme.onBackground
             )
         }
     }
@@ -656,11 +682,28 @@ fun formularioAsignarTurno(
                 Text(
                     text =
                         "Horario: ${turnoActual.horaInicio} - ${turnoActual.horaFin}",
-
                     fontSize = 15.sp,
-
                     color =
                         MaterialTheme.colorScheme.primary
+                )
+                Spacer(
+                    modifier = Modifier.height(5.dp)
+                )
+
+                Text(
+                    text =
+                        "Tolerancia de entrada: ${turnoActual.toleranciaInicio} min",
+                    fontSize = 14.sp,
+                    color =
+                        MaterialTheme.colorScheme.onBackground
+                )
+
+                Text(
+                    text =
+                        "Tolerancia de salida: ${turnoActual.toleranciaFin} min",
+                    fontSize = 14.sp,
+                    color =
+                        MaterialTheme.colorScheme.onBackground
                 )
             }
 

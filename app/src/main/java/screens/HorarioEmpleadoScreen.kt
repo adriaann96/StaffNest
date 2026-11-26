@@ -22,10 +22,23 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+data class HorarioEmpleado(
+    val nombreTurno: String,
+    val inicioProgramado: String,
+    val finProgramado: String,
+    val toleranciaInicio: Int,
+    val toleranciaFin: Int
+)
 @Composable
 fun horarioempleado() {
 
-    val estadoHoy = "normal"
+    val horario = HorarioEmpleado(
+        nombreTurno = "Matutino",
+        inicioProgramado = "08:00",
+        finProgramado = "16:00",
+        toleranciaInicio = 10,
+        toleranciaFin = 10
+    )
 
     Column(
         modifier = Modifier
@@ -53,86 +66,13 @@ fun horarioempleado() {
         )
 
 
-        if (estadoHoy == "normal") {
-
-            turnoactual()
-
-        } else {
-
-            estadoespecial(
-                estado = estadoHoy
-            )
-        }
+        turnoactual(
+            horario = horario
+        )
 
 
         Spacer(
             modifier = Modifier.height(25.dp)
-        )
-
-
-        Text(
-            text = "Horario de esta semana",
-            fontSize = 22.sp,
-            fontWeight = FontWeight.Bold,
-            color =
-                MaterialTheme.colorScheme.onBackground
-        )
-
-
-        Spacer(
-            modifier = Modifier.height(15.dp)
-        )
-
-
-        diashorario(
-            dia = "Lunes",
-            horario = "08:00 - 16:00",
-            sala = "Sala A"
-        )
-
-        Spacer(
-            modifier = Modifier.height(10.dp)
-        )
-
-        diashorario(
-            dia = "Martes",
-            horario = "08:00 - 16:00",
-            sala = "Sala A"
-        )
-
-        Spacer(
-            modifier = Modifier.height(10.dp)
-        )
-
-        diashorario(
-            dia = "Miércoles",
-            horario = "08:00 - 16:00",
-            sala = "Sala A"
-        )
-
-        Spacer(
-            modifier = Modifier.height(10.dp)
-        )
-
-        diashorario(
-            dia = "Jueves",
-            horario = "08:00 - 16:00",
-            sala = "Sala A"
-        )
-
-        Spacer(
-            modifier = Modifier.height(10.dp)
-        )
-
-        diashorario(
-            dia = "Viernes",
-            horario = "08:00 - 16:00",
-            sala = "Sala A"
-        )
-
-
-        Spacer(
-            modifier = Modifier.height(30.dp)
         )
 
 
@@ -189,21 +129,19 @@ fun horarioempleado() {
 
 
 @Composable
-fun turnoactual() {
+fun turnoactual(
+    horario: HorarioEmpleado
+) {
 
     Card(
         modifier = Modifier.fillMaxWidth(),
-
-        shape =
-            RoundedCornerShape(22.dp),
-
-        colors =
-            CardDefaults.cardColors(
-                containerColor =
-                    MaterialTheme.colorScheme.primary.copy(
-                        alpha = 0.10f
-                    )
-            )
+        shape = RoundedCornerShape(22.dp),
+        colors = CardDefaults.cardColors(
+            containerColor =
+                MaterialTheme.colorScheme.primary.copy(
+                    alpha = 0.10f
+                )
+        )
     ) {
 
         Column(
@@ -218,191 +156,50 @@ fun turnoactual() {
                     MaterialTheme.colorScheme.onBackground
             )
 
-
             Spacer(
                 modifier = Modifier.height(15.dp)
             )
-
-
-            Text(
-                text = "Turno: Matutino",
-                fontSize = 17.sp,
-                color =
-                    MaterialTheme.colorScheme.onBackground
-            )
-
-
-            Spacer(
-                modifier = Modifier.height(6.dp)
-            )
-
-
-            Text(
-                text = "Horario: 08:00 - 16:00",
-                fontSize = 17.sp,
-                color =
-                    MaterialTheme.colorScheme.onBackground
-            )
-
-
-            Spacer(
-                modifier = Modifier.height(6.dp)
-            )
-
-
-            Text(
-                text = "Sala: Sala A",
-                fontSize = 17.sp,
-                color =
-                    MaterialTheme.colorScheme.onBackground
-            )
-
-
-            Spacer(
-                modifier = Modifier.height(6.dp)
-            )
-
-
-            Text(
-                text = "Estancia: Estancia 2",
-                fontSize = 17.sp,
-                color =
-                    MaterialTheme.colorScheme.onBackground
-            )
-        }
-    }
-}
-
-
-@Composable
-fun estadoespecial(
-    estado: String
-) {
-
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-
-        shape =
-            RoundedCornerShape(22.dp),
-
-        colors =
-            CardDefaults.cardColors(
-                containerColor =
-                    MaterialTheme.colorScheme.primary.copy(
-                        alpha = 0.10f
-                    )
-            )
-    ) {
-
-        Column(
-            modifier = Modifier.padding(20.dp)
-        ) {
-
-            Text(
-                text = "Estado de hoy",
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                color =
-                    MaterialTheme.colorScheme.onBackground
-            )
-
-
-            Spacer(
-                modifier = Modifier.height(15.dp)
-            )
-
 
             Text(
                 text =
-                    when (estado) {
-
-                        "vacaciones" -> {
-                            "Vacaciones"
-                        }
-
-                        "permiso" -> {
-                            "Permiso"
-                        }
-
-                        "ausencia" -> {
-                            "Ausencia"
-                        }
-
-                        else -> {
-                            estado
-                        }
-                    },
-
-                fontSize = 22.sp,
-                fontWeight = FontWeight.Bold,
+                    "Turno: ${horario.nombreTurno}",
+                fontSize = 17.sp,
                 color =
                     MaterialTheme.colorScheme.onBackground
             )
-        }
-    }
-}
 
-
-@Composable
-fun diashorario(
-    dia: String,
-    horario: String,
-    sala: String
-) {
-
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-
-        shape =
-            RoundedCornerShape(18.dp),
-
-        colors =
-            CardDefaults.cardColors(
-                containerColor =
-                    MaterialTheme.colorScheme.primary.copy(
-                        alpha = 0.08f
-                    )
+            Spacer(
+                modifier = Modifier.height(6.dp)
             )
-    ) {
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-
-            horizontalArrangement =
-                Arrangement.SpaceBetween
-        ) {
-
-            Column {
-
-                Text(
-                    text = dia,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 17.sp,
-                    color =
-                        MaterialTheme.colorScheme.onBackground
-                )
-
-
-                Spacer(
-                    modifier = Modifier.height(4.dp)
-                )
-
-
-                Text(
-                    text = horario,
-                    fontSize = 14.sp,
-                    color =
-                        MaterialTheme.colorScheme.onBackground
-                )
-            }
-
 
             Text(
-                text = sala,
-                fontSize = 15.sp,
-                fontWeight = FontWeight.Bold,
+                text =
+                    "Horario: ${horario.inicioProgramado} - ${horario.finProgramado}",
+                fontSize = 17.sp,
+                color =
+                    MaterialTheme.colorScheme.onBackground
+            )
+
+            Spacer(
+                modifier = Modifier.height(6.dp)
+            )
+
+            Text(
+                text =
+                    "Tolerancia de entrada: ${horario.toleranciaInicio} min",
+                fontSize = 17.sp,
+                color =
+                    MaterialTheme.colorScheme.onBackground
+            )
+
+            Spacer(
+                modifier = Modifier.height(6.dp)
+            )
+
+            Text(
+                text =
+                    "Tolerancia de salida: ${horario.toleranciaFin} min",
+                fontSize = 17.sp,
                 color =
                     MaterialTheme.colorScheme.onBackground
             )

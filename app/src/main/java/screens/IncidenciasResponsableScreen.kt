@@ -54,12 +54,12 @@ fun incidenciasresponsable() {
 
             IncidenciaResponsable(
                 id = 1,
-                empleado = "Ana López",
+                empleado = "",
                 sala = "Sala A",
-                tipo = "Retardo",
-                titulo = "Llegada tardía",
+                tipo = "Material faltante",
+                titulo = "Material faltante",
                 descripcion =
-                    "La empleada registró su entrada después del horario programado.",
+                    "Se detectó material faltante dentro de la sala.",
                 estado = "Abierto",
                 fecha = "23/11/2026",
                 resolucion = ""
@@ -69,14 +69,14 @@ fun incidenciasresponsable() {
                 id = 2,
                 empleado = "Carlos Medina",
                 sala = "Sala B",
-                tipo = "Olvido de checado",
-                titulo = "Salida no registrada",
+                tipo = "Reporte de empleado",
+                titulo = "Reporte de empleado",
                 descripcion =
-                    "El empleado olvidó registrar su salida.",
+                    "Se registró una situación relacionada con el empleado.",
                 estado = "Resuelto",
                 fecha = "22/11/2026",
                 resolucion =
-                    "Se verificó el horario y se corrigió el registro."
+                    "La responsable revisó la situación y dio seguimiento."
             )
         )
     }
@@ -278,7 +278,7 @@ fun formularioincidenciaresponsable(
 ) {
 
     var empleado by remember {
-        mutableStateOf("Ana López")
+        mutableStateOf("Sin empleado relacionado")
     }
 
     var sala by remember {
@@ -286,7 +286,7 @@ fun formularioincidenciaresponsable(
     }
 
     var tipo by remember {
-        mutableStateOf("Retardo")
+        mutableStateOf("Falla de equipo")
     }
 
     var descripcion by remember {
@@ -337,6 +337,7 @@ fun formularioincidenciaresponsable(
                 titulo = "Empleado",
                 valor = empleado,
                 opciones = listOf(
+                    "Sin empleado relacionado",
                     "Ana López",
                     "María García",
                     "Carlos Medina",
@@ -379,12 +380,11 @@ fun formularioincidenciaresponsable(
                 titulo = "Tipo de incidencia",
                 valor = tipo,
                 opciones = listOf(
-                    "Falta",
-                    "Retardo",
-                    "Olvido de checado",
-                    "Salida anticipada",
-                    "Error",
-                    "Otra incidencia"
+                    "Falla de equipo",
+                    "Material dañado",
+                    "Material faltante",
+                    "Reporte de empleado",
+                    "Otro"
                 ),
                 seleccionar = {
 
@@ -448,8 +448,17 @@ fun formularioincidenciaresponsable(
 
             Button(
                 onClick = {
+                    if (
+                        tipo == "Reporte de empleado" &&
+                        empleado == "Sin empleado relacionado"
+                    ) {
 
-                    if (descripcion.isBlank()) {
+                        mensaje =
+                            "Selecciona el empleado relacionado"
+
+                    } else if (
+                        descripcion.isBlank()
+                    ) {
 
                         mensaje =
                             "Falta ingresar la descripción"
@@ -460,12 +469,21 @@ fun formularioincidenciaresponsable(
 
                             IncidenciaResponsable(
                                 id = 0,
-                                empleado = empleado,
+
+                                empleado =
+                                    if (
+                                        empleado ==
+                                        "Sin empleado relacionado"
+                                    ) {
+                                        ""
+                                    } else {
+                                        empleado
+                                    },
+
                                 sala = sala,
                                 tipo = tipo,
                                 titulo = tipo,
-                                descripcion =
-                                    descripcion,
+                                descripcion = descripcion,
                                 estado = "Abierto",
                                 fecha = "23/11/2026",
                                 resolucion = ""
@@ -582,18 +600,16 @@ fun tarjetaincidenciaresponsable(
             )
 
 
-            Text(
-                text =
-                    incidencia.empleado,
+            if (incidencia.empleado.isNotBlank()) {
 
-                fontSize = 15.sp,
-
-                fontWeight =
-                    FontWeight.Bold,
-
-                color =
-                    MaterialTheme.colorScheme.onBackground
-            )
+                Text(
+                    text = incidencia.empleado,
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.Bold,
+                    color =
+                        MaterialTheme.colorScheme.onBackground
+                )
+            }
 
 
             Text(
@@ -620,17 +636,6 @@ fun tarjetaincidenciaresponsable(
 
             Spacer(
                 modifier = Modifier.height(5.dp)
-            )
-
-
-            Text(
-                text =
-                    incidencia.titulo,
-
-                fontSize = 14.sp,
-
-                color =
-                    MaterialTheme.colorScheme.onBackground
             )
         }
     }
@@ -704,13 +709,15 @@ fun detalleincidenciaresponsable(
             )
 
 
-            Text(
-                text =
-                    "Empleado: ${incidencia.empleado}",
+            if (incidencia.empleado.isNotBlank()) {
 
-                color =
-                    MaterialTheme.colorScheme.onBackground
-            )
+                Text(
+                    text =
+                        "Empleado: ${incidencia.empleado}",
+                    color =
+                        MaterialTheme.colorScheme.onBackground
+                )
+            }
 
 
             Text(
@@ -742,18 +749,6 @@ fun detalleincidenciaresponsable(
 
             Spacer(
                 modifier = Modifier.height(10.dp)
-            )
-
-
-            Text(
-                text =
-                    incidencia.titulo,
-
-                fontWeight =
-                    FontWeight.Bold,
-
-                color =
-                    MaterialTheme.colorScheme.onBackground
             )
 
 
