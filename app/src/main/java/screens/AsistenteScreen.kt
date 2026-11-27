@@ -31,11 +31,11 @@ fun asistente(
 
     // Permisos hardcodeados
     // Cambiar dinámicamente con el responsable en el próximo avance
-    val verSalas = false
-    val gestionarPersonal = false
-    val gestionarHorarios = false
-    val gestionarIncidencias = false
-    val registrarAsistencia = false
+    val verSalas = true
+    val gestionarPersonal = true
+    val gestionarHorarios = true
+    val gestionarIncidencias = true
+    val registrarAsistencia = true
 
     Scaffold(
         topBar = {
