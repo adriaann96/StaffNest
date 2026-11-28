@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.staffnest.model.Perfil
+import com.example.staffnest.network.SesionActual
 import com.example.staffnest.screens.asistente
 import com.example.staffnest.screens.empleado
 import com.example.staffnest.screens.login
@@ -25,27 +26,26 @@ fun navegacion() {
 
             login(
                 entrar = { perfil ->
-                    when (perfil) {
-                        Perfil.PRESIDENCIA -> {
-                            nav.navigate(
-                                Ruta.Presidencia.ruta
-                            )
+                    val destino = when (perfil) {
+                        Perfil.PRESIDENCIA ->
+                            Ruta.Presidencia.ruta
+
+                        Perfil.RESPONSABLE ->
+                            Ruta.Responsable.ruta
+
+                        Perfil.ASISTENTE ->
+                            Ruta.Asistente.ruta
+
+                        Perfil.EMPLEADO ->
+                            Ruta.Empleado.ruta
+                    }
+
+                    nav.navigate(destino) {
+                        popUpTo(Ruta.Login.ruta) {
+                            inclusive = true //checar pq
                         }
-                        Perfil.RESPONSABLE -> {
-                            nav.navigate(
-                                Ruta.Responsable.ruta
-                            )
-                        }
-                        Perfil.ASISTENTE -> {
-                            nav.navigate(
-                                Ruta.Asistente.ruta
-                            )
-                        }
-                        Perfil.EMPLEADO -> {
-                            nav.navigate(
-                                Ruta.Empleado.ruta
-                            )
-                        }
+
+                        launchSingleTop = true
                     }
                 }
             )
@@ -92,13 +92,13 @@ fun navegacion() {
 fun cerrarsesion(
     nav: NavHostController
 ) {
-    nav.navigate(
-        Ruta.Login.ruta
-    ) {
-        popUpTo(
-            Ruta.Login.ruta
-        ) {
-            inclusive = true
+    SesionActual.limpiar()
+
+    nav.navigate(Ruta.Login.ruta) {
+        popUpTo(nav.graph.id) {
+            inclusive = false
         }
+
+        launchSingleTop = true
     }
 }

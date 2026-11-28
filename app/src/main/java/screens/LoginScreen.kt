@@ -1,5 +1,6 @@
 package com.example.staffnest.screens
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,9 +19,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,11 +33,17 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.staffnest.model.Perfil
+import com.example.staffnest.network.RetrofitClient
+import com.example.staffnest.network.autenticar
+import kotlinx.coroutines.launch
+import kotlin.coroutines.cancellation.CancellationException
 
 @Composable
 fun login(
     entrar: (Perfil) -> Unit
 ) {
+
+
 
     var usuario by remember {
         mutableStateOf("")
@@ -51,6 +60,12 @@ fun login(
     var mensaje by remember {
         mutableStateOf("")
     }
+
+    var cargando by remember {
+        mutableStateOf(false)
+    }
+
+    val scope = rememberCoroutineScope()
 
 
     Column(
@@ -122,7 +137,8 @@ fun login(
                         mensaje = ""
                     },
 
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    enabled = !cargando
                 )
 
 
@@ -153,7 +169,8 @@ fun login(
                     modifier = Modifier.fillMaxWidth(),
 
                     visualTransformation =
-                        PasswordVisualTransformation()
+                        PasswordVisualTransformation(),
+                    enabled = !cargando
                 )
 
 
@@ -190,81 +207,46 @@ fun login(
 
                 Button(
                     onClick = {
-
                         if (usuario.isBlank()) {
-
                             mensaje =
                                 "Falta ingresar el correo"
-
                         } else if (contrasena.isBlank()) {
-
                             mensaje =
                                 "Falta ingresar la contraseña"
+                        } else if (!cargando) {
+                            cargando = true
+                            mensaje = ""
 
-                        } else {
-
-                            when {
-
-                                usuario ==
-                                        "presidencia@presidencia.com" &&
-                                        contrasena ==
-                                        "123" -> {
-
-                                    entrar(
-                                        Perfil.PRESIDENCIA
+                            scope.launch {
+                                try {
+                                    val resultado = autenticar(
+                                        usuario,
+                                        contrasena
                                     )
-                                }
+                                    contrasena = ""
 
+                                    val perfil = resultado.perfil
 
-                                usuario ==
-                                        "responsable@responsable.com" &&
-                                        contrasena ==
-                                        "123" -> {
-
-                                    entrar(
-                                        Perfil.RESPONSABLE
-                                    )
-                                }
-
-
-                                usuario ==
-                                        "asistente@asistente.com" &&
-                                        contrasena ==
-                                        "123" -> {
-
-                                    entrar(
-                                        Perfil.ASISTENTE
-                                    )
-                                }
-
-
-                                usuario ==
-                                        "empleado@empleado.com" &&
-                                        contrasena ==
-                                        "123" -> {
-
-                                    entrar(
-                                        Perfil.EMPLEADO
-                                    )
-                                }
-
-
-                                else -> {
-
-                                    mensaje =
-                                        "Correo o contraseña incorrectos"
+                                    if (perfil != null) {
+                                        entrar(perfil)
+                                    } else {
+                                        mensaje = resultado.mensaje
+                                    }
+                                } finally {
+                                    cargando = false
                                 }
                             }
                         }
                     },
-
                     modifier = Modifier.fillMaxWidth(),
-
-                    enabled = aceptado
+                    enabled = aceptado && !cargando
                 ) {
-
                     Text(
-                        text = "Iniciar sesión"
+                        text = if (cargando) {
+                            "Iniciando sesión..."
+                        } else {
+                            "Iniciar sesión"
+                        }
                     )
                 }
 
