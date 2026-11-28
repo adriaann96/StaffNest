@@ -127,3 +127,22 @@ suspend fun autenticar(
         }
     }
 }
+
+suspend fun cerrarSesionActual(): Boolean {
+    val token = SesionActual.obtenerToken()
+    SesionActual.limpiar()
+
+    if (token == null) {
+        return true
+    }
+
+    return try {
+        val respuesta = RetrofitClient.api.cerrarSesion(token)
+        respuesta.errorBody()?.close()
+        respuesta.isSuccessful || respuesta.code() == 401
+    } catch (e: CancellationException) {
+        throw e
+    } catch (_: Exception) {
+        false
+    }
+}

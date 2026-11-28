@@ -3,12 +3,15 @@ package com.example.staffnest.network
 import com.example.staffnest.model.TokenSesion
 import com.example.staffnest.model.UsuarioSesion
 import java.time.Instant
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 
 object SesionActual {
 
     private var token: TokenSesion? = null
 
-    var usuario: UsuarioSesion? = null
+    var usuario by mutableStateOf<UsuarioSesion?>(null)
         private set
 
     fun guardar(
